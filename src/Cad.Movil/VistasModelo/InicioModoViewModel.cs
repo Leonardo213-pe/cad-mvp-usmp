@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 namespace Cad.Movil.VistasModelo;
 
 /// <summary>Pantalla principal de cada modo; sus funciones llegan con las HU siguientes.</summary>
-public sealed partial class InicioModoViewModel(SesionServicio sesion) : ObservableObject
+public partial class InicioModoViewModel(SesionServicio sesion) : ObservableObject
 {
     public string Email => sesion.Actual?.Email ?? "";
 
