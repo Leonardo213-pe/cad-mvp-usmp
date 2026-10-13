@@ -1,3 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="456" height="456" viewBox="0 0 456 456">
-  <text x="228" y="280" font-family="Arial" font-size="160" font-weight="bold" fill="#FFFFFF" text-anchor="middle">CAD</text>
+  <path d="M228 92C162 92 110 144 110 210C110 298 228 380 228 380S346 298 346 210C346 144 294 92 228 92Z" fill="#FFFFFF"/>
+  <circle cx="228" cy="210" r="46" fill="#1F3A68"/>
 </svg>

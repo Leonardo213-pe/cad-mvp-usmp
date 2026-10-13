@@ -1,0 +1,46 @@
+@page
+@{
+    ViewData["Titulo"] = "Inicio";
+}
+
+<section class="bienvenida">
+    <h1>Panel de central</h1>
+    <p>Recepción de SOS, verificación, asignación manual a serenos y seguimiento de casos.</p>
+</section>
+
+<section class="tarjetas">
+    <article class="tarjeta">
+        <h2>Estado del servidor</h2>
+        <p id="estado-servidor" class="estado estado-pendiente">Comprobando…</p>
+        <small id="hora-servidor"></small>
+    </article>
+
+    <article class="tarjeta">
+        <h2>Módulos del panel</h2>
+        <ul class="modulos">
+            <li><span class="punto urgente"></span>Sección urgente (SOS)<em>Próximamente</em></li>
+            <li><span class="punto"></span>Mapa operativo<em>Próximamente</em></li>
+            <li><span class="punto"></span>Reportes y casos<em>Próximamente</em></li>
+            <li><span class="punto"></span>Acompañamientos<em>Próximamente</em></li>
+            <li><span class="punto"></span>Administración de cuentas<em>Próximamente</em></li>
+        </ul>
+    </article>
+</section>
+
+@section Scripts {
+    <script type="module">
+        const estado = document.getElementById("estado-servidor");
+        const hora = document.getElementById("hora-servidor");
+        try {
+            const respuesta = await fetch("/salud", { cache: "no-store" });
+            if (!respuesta.ok) throw new Error(respuesta.status);
+            const datos = await respuesta.json();
+            estado.textContent = "En línea";
+            estado.className = "estado estado-ok";
+            hora.textContent = "Hora del servidor: " + new Date(datos.hora).toLocaleString("es-PE");
+        } catch {
+            estado.textContent = "Sin conexión";
+            estado.className = "estado estado-error";
+        }
+    </script>
+}

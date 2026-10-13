@@ -1,0 +1,87 @@
+:root {
+    --primario: #1f3a68;
+    --primario-oscuro: #14284a;
+    --acento: #c0392b;
+    --ok: #1e7f4f;
+    --fondo: #f4f6fa;
+    --superficie: #ffffff;
+    --texto: #1b2430;
+    --texto-suave: #5b6675;
+    --borde: #d5dbe5;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+}
+
+.barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 24px;
+    background: var(--primario);
+    color: #fff;
+}
+
+.marca { display: flex; align-items: center; gap: 12px; }
+.marca small { display: block; opacity: .8; font-size: 13px; }
+
+.logo {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #fff;
+    color: var(--primario);
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.aviso-mvp {
+    font-size: 12px;
+    padding: 4px 10px;
+    border: 1px solid rgba(255, 255, 255, .4);
+    border-radius: 999px;
+}
+
+.contenido { flex: 1; width: 100%; max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+
+.bienvenida h1 { margin: 0 0 8px; color: var(--primario); font-size: 28px; }
+.bienvenida p { margin: 0 0 24px; color: var(--texto-suave); }
+
+.tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+
+.tarjeta {
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+    padding: 20px 24px;
+}
+
+.tarjeta h2 { margin: 0 0 12px; font-size: 16px; color: var(--texto-suave); font-weight: 600; }
+
+.estado { margin: 0 0 4px; font-size: 22px; font-weight: 700; }
+.estado::before { content: "●"; margin-right: 8px; }
+.estado-pendiente { color: var(--texto-suave); }
+.estado-ok { color: var(--ok); }
+.estado-error { color: var(--acento); }
+
+.modulos { list-style: none; margin: 0; padding: 0; }
+.modulos li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--borde); }
+.modulos li:last-child { border-bottom: 0; }
+.modulos em { margin-left: auto; font-size: 12px; font-style: normal; color: var(--texto-suave); }
+
+.punto { width: 10px; height: 10px; border-radius: 50%; background: var(--primario); }
+.punto.urgente { background: var(--acento); }
+
+.pie { padding: 16px 24px; text-align: center; font-size: 12px; color: var(--texto-suave); }

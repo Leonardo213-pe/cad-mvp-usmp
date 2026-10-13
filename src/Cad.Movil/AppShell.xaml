@@ -3,8 +3,12 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:comun="clr-namespace:Cad.Movil.Vistas.Comun"
        x:Class="Cad.Movil.AppShell"
-       Shell.FlyoutBehavior="Disabled">
+       Shell.FlyoutBehavior="Disabled"
+       Shell.BackgroundColor="{StaticResource Primario}"
+       Shell.ForegroundColor="White"
+       Shell.TitleColor="White">
 
-    <ShellContent Title="CAD" ContentTemplate="{DataTemplate comun:InicioPage}" Route="inicio" />
+    <ShellContent Title="CAD" ContentTemplate="{DataTemplate comun:InicioPage}" Route="inicio"
+                  Shell.NavBarIsVisible="False" />
 
 </Shell>
