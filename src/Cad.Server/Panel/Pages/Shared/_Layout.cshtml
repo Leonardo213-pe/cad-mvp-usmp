@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Titulo"] · Panel CAD</title>
+    <link rel="stylesheet" href="~/css/panel.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="barra">
+        <div class="marca">
+            <span class="logo">CAD</span>
+            <div>
+                <strong>Sistema Integrado CAD</strong>
+                <small>Panel web de central</small>
+            </div>
+        </div>
+        <span class="aviso-mvp">MVP académico · datos simulados</span>
+    </header>
+    <main class="contenido">
+        @RenderBody()
+    </main>
+    <footer class="pie">
+        No es un canal oficial de atención de emergencias.
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

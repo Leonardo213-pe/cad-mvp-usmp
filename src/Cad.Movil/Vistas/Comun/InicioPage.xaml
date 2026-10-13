@@ -3,8 +3,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Cad.Movil.Vistas.Comun.InicioPage"
              Title="CAD">
-    <VerticalStackLayout Padding="24" Spacing="12" VerticalOptions="Center">
-        <Label Text="Sistema Integrado CAD" FontSize="22" HorizontalOptions="Center" />
-        <Label Text="MVP académico · datos simulados" HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="*,Auto" Padding="24">
+        <VerticalStackLayout Grid.Row="0" Spacing="20" VerticalOptions="Center">
+
+            <Border WidthRequest="96" HeightRequest="96" HorizontalOptions="Center"
+                    BackgroundColor="{StaticResource Primario}" StrokeThickness="0"
+                    StrokeShape="RoundRectangle 24">
+                <Label Text="CAD" TextColor="White" FontSize="30" FontAttributes="Bold"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Sistema Integrado CAD" Style="{StaticResource Titulo}"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="Alertas georreferenciadas y despacho de serenazgo"
+                       Style="{StaticResource Subtitulo}" HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+            <Border Style="{StaticResource Tarjeta}">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="Esta aplicación tiene dos modos" Style="{StaticResource Etiqueta}" />
+                    <HorizontalStackLayout Spacing="12">
+                        <BoxView WidthRequest="10" HeightRequest="10" CornerRadius="5"
+                                 Color="{StaticResource Acento}" VerticalOptions="Center" />
+                        <Label Text="Ciudadano: SOS, reportes y acompañamiento" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="12">
+                        <BoxView WidthRequest="10" HeightRequest="10" CornerRadius="5"
+                                 Color="{StaticResource Primario}" VerticalOptions="Center" />
+                        <Label Text="Sereno: estado operativo y despachos" />
+                    </HorizontalStackLayout>
+                    <Label Text="El modo se elige según la cuenta con la que inicies sesión."
+                           Style="{StaticResource Subtitulo}" FontSize="13" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+
+        <Label Grid.Row="1" Style="{StaticResource Nota}"
+               Text="MVP académico · datos simulados · no es un canal oficial de emergencias" />
+    </Grid>
 </ContentPage>
