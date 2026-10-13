@@ -10,7 +10,7 @@ namespace Cad.Server.Modulos.Casos.Aplicacion;
 /// <param name="Creado">Falso si el IdSolicitud ya existía y se devolvió el SOS registrado antes.</param>
 public sealed record SosRegistrado(Caso Caso, bool Creado);
 
-public sealed class ServicioSos(CadDbContext db, TimeProvider reloj)
+public sealed class ServicioSos(CadDbContext db, TimeProvider reloj, INotificador notificador, ILogger<ServicioSos> log)
 {
     /// <summary>Margen para relojes de teléfono adelantados respecto del servidor.</summary>
     private static readonly TimeSpan ToleranciaReloj = TimeSpan.FromMinutes(2);
@@ -54,7 +54,27 @@ public sealed class ServicioSos(CadDbContext db, TimeProvider reloj)
             return Resultado<SosRegistrado>.Exito(new SosRegistrado(existente, Creado: false));
         }
 
+        // HU11: la central se avisa después del COMMIT. Un reintento (Creado = false) no vuelve a avisar.
+        await NotificarCentralAsync(caso.Id);
+
         return Resultado<SosRegistrado>.Exito(new SosRegistrado(caso, Creado: true));
+    }
+
+    /// <summary>
+    /// El SOS ya está guardado: si el aviso en tiempo real falla, la respuesta al ciudadano no cambia y la
+    /// central lo recupera al resincronizar (ADR-04). No se usa el token de la solicitud: el aviso se envía
+    /// aunque la app corte la conexión justo después del COMMIT.
+    /// </summary>
+    private async Task NotificarCentralAsync(Guid casoId)
+    {
+        try
+        {
+            await notificador.SosNuevoAsync(casoId, CancellationToken.None);
+        }
+        catch (Exception ex)
+        {
+            log.LogWarning(ex, "No se pudo notificar en tiempo real el SOS {CasoId}", casoId);
+        }
     }
 
     private Task<Caso?> BuscarAsync(Guid ciudadanoId, Guid idSolicitud, CancellationToken ct) =>

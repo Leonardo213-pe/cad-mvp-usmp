@@ -1,0 +1,49 @@
+@page "/central"
+@using System.Globalization
+@inject IConfiguration Configuracion
+@{
+    ViewData["Titulo"] = "Central";
+    ViewData["ClaseContenido"] = "contenido-ancho";
+    var mapa = Configuracion.GetSection("Panel:Mapa");
+    string Numero(string clave, double defecto) =>
+        mapa.GetValue(clave, defecto).ToString(CultureInfo.InvariantCulture);
+}
+
+@section Estilos {
+    <link rel="stylesheet" href="~/lib/leaflet/leaflet.css" />
+}
+
+<!-- HU11: sección urgente con los SOS en tiempo real. Los datos llegan por SignalR y por la API REST. -->
+<section class="central"
+         data-mapa-latitud="@Numero("Latitud", -12.0464)"
+         data-mapa-longitud="@Numero("Longitud", -77.0428)"
+         data-mapa-zoom="@Numero("Zoom", 13)">
+
+    <aside class="seccion-urgente" aria-label="Sección urgente">
+        <header class="seccion-urgente-cabecera">
+            <div>
+                <h1>Sección urgente</h1>
+                <p id="contador-sos" class="texto-suave">Sin SOS pendientes</p>
+            </div>
+            <span id="estado-conexion" class="conexion conexion-pendiente">Conectando…</span>
+        </header>
+
+        <!-- Los navegadores bloquean el sonido hasta que el usuario interactúa con la página (SP-E). -->
+        <button id="iniciar-turno" type="button" class="boton boton-primario boton-ancho">
+            Iniciar turno y activar sonido
+        </button>
+
+        <div id="alerta-nueva" class="alerta-nueva" role="alert" hidden>¡SOS nuevo!</div>
+
+        <ol id="lista-sos" class="lista-sos" aria-live="polite"></ol>
+        <p id="sin-sos" class="vacio">No hay SOS pendientes.</p>
+    </aside>
+
+    <div id="mapa" class="mapa" role="region" aria-label="Mapa de casos"></div>
+</section>
+
+@section Scripts {
+    <script src="~/lib/leaflet/leaflet.js"></script>
+    <script src="~/lib/signalr/signalr.min.js"></script>
+    <script src="~/js/central.js" asp-append-version="true"></script>
+}

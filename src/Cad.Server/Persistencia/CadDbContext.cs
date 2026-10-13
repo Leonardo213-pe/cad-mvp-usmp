@@ -15,6 +15,7 @@ public sealed class CadDbContext(DbContextOptions<CadDbContext> options)
     public DbSet<EstadoSereno> EstadosSereno => Set<EstadoSereno>();
     public DbSet<Caso> Casos => Set<Caso>();
     public DbSet<EventoCaso> EventosCaso => Set<EventoCaso>();
+    public DbSet<MedicionPresentacion> MedicionesPresentacion => Set<MedicionPresentacion>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
