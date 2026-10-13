@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Cad.Movil.VistasModelo"
+             x:Class="Cad.Movil.Vistas.Comun.RegistroPage"
+             x:DataType="vm:RegistroViewModel"
+             Title="Crear cuenta">
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="18">
+
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Cuenta de ciudadano" Style="{StaticResource Titulo}" FontSize="22" />
+                <Label Text="Con tu cuenta podrás enviar SOS, reportar incidencias y seguir tus casos."
+                       Style="{StaticResource Subtitulo}" />
+            </VerticalStackLayout>
+
+            <Border Style="{StaticResource Tarjeta}">
+                <VerticalStackLayout Spacing="14">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Nombre completo" Style="{StaticResource Etiqueta}" />
+                        <Entry Text="{Binding NombreCompleto}" Placeholder="Nombres y apellidos" ReturnType="Next" />
+                        <Label Text="{Binding ErrorNombre}" Style="{StaticResource ErrorCampo}"
+                               IsVisible="{Binding ErrorNombre, Converter={StaticResource TextoNoVacio}}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Email" Style="{StaticResource Etiqueta}" />
+                        <Entry Text="{Binding Email}" Keyboard="Email" Placeholder="tu@correo.com"
+                               IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" ReturnType="Next" />
+                        <Label Text="{Binding ErrorEmail}" Style="{StaticResource ErrorCampo}"
+                               IsVisible="{Binding ErrorEmail, Converter={StaticResource TextoNoVacio}}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Teléfono" Style="{StaticResource Etiqueta}" />
+                        <Entry Text="{Binding Telefono}" Keyboard="Telephone" Placeholder="987654321" ReturnType="Next" />
+                        <Label Text="La central lo usa para contactarte si envías un SOS."
+                               Style="{StaticResource Subtitulo}" FontSize="12" />
+                        <Label Text="{Binding ErrorTelefono}" Style="{StaticResource ErrorCampo}"
+                               IsVisible="{Binding ErrorTelefono, Converter={StaticResource TextoNoVacio}}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Contraseña" Style="{StaticResource Etiqueta}" />
+                        <Entry Text="{Binding Contrasena}" IsPassword="True" Placeholder="Mínimo 8 caracteres" ReturnType="Next" />
+                        <Label Text="Al menos 8 caracteres, con un número y una letra minúscula."
+                               Style="{StaticResource Subtitulo}" FontSize="12" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Repite la contraseña" Style="{StaticResource Etiqueta}" />
+                        <Entry Text="{Binding Confirmacion}" IsPassword="True" Placeholder="Repite la contraseña"
+                               ReturnType="Go" ReturnCommand="{Binding RegistrarCommand}" />
+                        <Label Text="{Binding ErrorContrasena}" Style="{StaticResource ErrorCampo}"
+                               IsVisible="{Binding ErrorContrasena, Converter={StaticResource TextoNoVacio}}" />
+                    </VerticalStackLayout>
+
+                    <Label Text="{Binding MensajeError}" IsVisible="{Binding HayError}"
+                           Style="{StaticResource ErrorCampo}" FontSize="14" />
+
+                    <Button Text="Crear cuenta" Style="{StaticResource BotonPrimario}"
+                            Command="{Binding RegistrarCommand}" IsEnabled="{Binding NoOcupado}" />
+
+                    <ActivityIndicator IsRunning="{Binding Ocupado}" IsVisible="{Binding Ocupado}"
+                                       Color="{StaticResource Primario}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Style="{StaticResource Nota}"
+                   Text="Las cuentas de operador y de sereno las crea el administrador de la central." />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

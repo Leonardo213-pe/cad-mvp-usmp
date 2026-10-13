@@ -2,13 +2,16 @@
 <Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:comun="clr-namespace:Cad.Movil.Vistas.Comun"
+       xmlns:ciudadano="clr-namespace:Cad.Movil.Vistas.Ciudadano"
+       xmlns:sereno="clr-namespace:Cad.Movil.Vistas.Sereno"
        x:Class="Cad.Movil.AppShell"
        Shell.FlyoutBehavior="Disabled"
        Shell.BackgroundColor="{StaticResource Primario}"
        Shell.ForegroundColor="White"
        Shell.TitleColor="White">
 
-    <ShellContent Title="CAD" ContentTemplate="{DataTemplate comun:InicioPage}" Route="inicio"
-                  Shell.NavBarIsVisible="False" />
+    <ShellContent Route="login" ContentTemplate="{DataTemplate comun:LoginPage}" />
+    <ShellContent Route="ciudadano" ContentTemplate="{DataTemplate ciudadano:InicioCiudadanoPage}" />
+    <ShellContent Route="sereno" ContentTemplate="{DataTemplate sereno:InicioSerenoPage}" />
 
 </Shell>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Cad.Movil.VistasModelo"
+             x:Class="Cad.Movil.Vistas.Sereno.InicioSerenoPage"
+             x:DataType="vm:InicioModoViewModel"
+             Title="Sereno">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Salir" Command="{Binding CerrarSesionCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="24" RowSpacing="20">
+        <VerticalStackLayout Grid.Row="0" Spacing="4">
+            <Label Text="Modo sereno" Style="{StaticResource Subtitulo}" />
+            <Label Text="{Binding Email}" Style="{StaticResource Titulo}" FontSize="20" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1" Spacing="16" VerticalOptions="Center">
+            <Border Style="{StaticResource Tarjeta}">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                        <Label Text="Estado operativo" FontAttributes="Bold" />
+                        <Label Text="No operativo · se activa con HU18" Style="{StaticResource Subtitulo}" FontSize="13" />
+                    </VerticalStackLayout>
+                    <Switch Grid.Column="1" IsEnabled="False" VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource Tarjeta}" Opacity="0.6">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Despacho asignado" FontAttributes="Bold" />
+                    <Label Text="Aquí verás el caso que te asigne la central, su ubicación y los pasos de atención."
+                           Style="{StaticResource Subtitulo}" FontSize="13" />
+                    <Label Text="Próximamente" Style="{StaticResource Etiqueta}" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+
+        <Label Grid.Row="2" Style="{StaticResource Nota}"
+               Text="Mantén la app abierta y con conexión durante tu turno." />
+    </Grid>
+</ContentPage>

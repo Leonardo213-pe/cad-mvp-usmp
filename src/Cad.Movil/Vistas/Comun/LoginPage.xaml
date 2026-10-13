@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Cad.Movil.VistasModelo"
+             x:Class="Cad.Movil.Vistas.Comun.LoginPage"
+             x:DataType="vm:LoginViewModel"
+             Shell.NavBarIsVisible="False"
+             Title="Iniciar sesión">
+    <ScrollView>
+        <VerticalStackLayout Padding="24,48,24,24" Spacing="20">
+
+            <Border WidthRequest="84" HeightRequest="84" HorizontalOptions="Center"
+                    BackgroundColor="{StaticResource Primario}" StrokeThickness="0"
+                    StrokeShape="RoundRectangle 22">
+                <Label Text="CAD" TextColor="White" FontSize="26" FontAttributes="Bold"
+                       HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Sistema Integrado CAD" Style="{StaticResource Titulo}" HorizontalTextAlignment="Center" />
+                <Label Text="Ingresa con tu cuenta de ciudadano o de sereno"
+                       Style="{StaticResource Subtitulo}" HorizontalTextAlignment="Center" />
+            </VerticalStackLayout>
+
+            <Border Style="{StaticResource Tarjeta}">
+                <VerticalStackLayout Spacing="14">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Email" Style="{StaticResource Etiqueta}" />
+                        <Entry Text="{Binding Email}" Keyboard="Email" Placeholder="tu@correo.com"
+                               IsSpellCheckEnabled="False" IsTextPredictionEnabled="False" ReturnType="Next" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Contraseña" Style="{StaticResource Etiqueta}" />
+                        <Entry Text="{Binding Contrasena}" IsPassword="True" Placeholder="Tu contraseña"
+                               ReturnType="Go" ReturnCommand="{Binding IniciarSesionCommand}" />
+                    </VerticalStackLayout>
+
+                    <Label Text="{Binding MensajeError}" IsVisible="{Binding HayError}"
+                           Style="{StaticResource ErrorCampo}" FontSize="14" />
+
+                    <Button Text="Iniciar sesión" Style="{StaticResource BotonPrimario}"
+                            Command="{Binding IniciarSesionCommand}" IsEnabled="{Binding NoOcupado}" />
+
+                    <ActivityIndicator IsRunning="{Binding Ocupado}" IsVisible="{Binding Ocupado}"
+                                       Color="{StaticResource Primario}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout Spacing="8">
+                <Label Text="¿Aún no tienes cuenta?" Style="{StaticResource Subtitulo}" HorizontalTextAlignment="Center" />
+                <Button Text="Crear cuenta de ciudadano" Style="{StaticResource BotonSecundario}"
+                        Command="{Binding IrARegistroCommand}" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="6">
+                <Button Text="Configurar servidor" BackgroundColor="Transparent" TextColor="{StaticResource TextoSuave}"
+                        FontSize="13" Command="{Binding AlternarServidorCommand}" />
+                <Entry Text="{Binding ServidorUrl}" IsVisible="{Binding MostrarServidor}" Keyboard="Url"
+                       Placeholder="https://servidor-cad" FontSize="14" />
+            </VerticalStackLayout>
+
+            <Label Style="{StaticResource Nota}"
+                   Text="MVP académico · datos simulados · no es un canal oficial de emergencias" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
