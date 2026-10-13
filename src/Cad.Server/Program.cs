@@ -12,9 +12,13 @@ builder.Services.AddPersistenciaCad(builder.Configuration);
 builder.Services.AddSeguridadCad(builder.Configuration);
 builder.Services.AddModuloCuentas(builder.Configuration);
 
+// Panel de central servido por el mismo proceso (sección 3.2).
+builder.Services.AddRazorPages(o => o.RootDirectory = "/Panel/Pages");
+
 var app = builder.Build();
 
 app.UseExceptionHandler();
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -27,6 +31,7 @@ if (app.Configuration.GetValue("BaseDatos:MigrarAlArrancar", true))
 app.MapGet("/salud", () => Results.Ok(new EstadoSaludDto("ok", DateTimeOffset.UtcNow)));
 
 app.MapCuentasEndpoints();
+app.MapRazorPages();
 
 app.Run();
 
