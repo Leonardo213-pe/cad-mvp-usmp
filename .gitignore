@@ -1,0 +1,18 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.vscode/
+.idea/
+TestResults/
+
+# Android / MAUI
+*.apk
+*.aab
+*.keystore
+
+# Secretos
+.env
+appsettings.*.local.json

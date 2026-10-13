@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-android</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Cad.Movil</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+
+    <ApplicationTitle>CAD</ApplicationTitle>
+    <ApplicationId>pe.edu.usmp.cad</ApplicationId>
+    <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <SupportedOSPlatformVersion>24.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#1F3A68" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#1F3A68" BaseSize="128,128" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cad.Contratos\Cad.Contratos.csproj" />
+  </ItemGroup>
+
+</Project>
