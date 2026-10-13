@@ -85,3 +85,67 @@ body {
 .punto.urgente { background: var(--acento); }
 
 .pie { padding: 16px 24px; text-align: center; font-size: 12px; color: var(--texto-suave); }
+
+/* ---------- Navegación y sesión ---------- */
+.navegacion { display: flex; gap: 20px; margin-right: auto; margin-left: 32px; }
+.navegacion a { color: #fff; text-decoration: none; opacity: .85; font-weight: 600; }
+.navegacion a:hover { opacity: 1; text-decoration: underline; }
+.sesion { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.sesion form { margin: 0; }
+.boton-enlace { background: none; border: 1px solid rgba(255, 255, 255, .5); color: #fff; border-radius: 8px; padding: 6px 12px; cursor: pointer; }
+.boton-enlace:hover { background: rgba(255, 255, 255, .12); }
+
+/* ---------- Botones y formularios ---------- */
+.boton { display: inline-block; border: 0; border-radius: 10px; padding: 12px 18px; font: inherit; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; }
+.boton-primario { background: var(--primario); color: #fff; }
+.boton-primario:hover { background: var(--primario-oscuro); }
+.boton-primario:disabled { background: var(--ok); cursor: default; }
+.boton-secundario { background: transparent; color: var(--primario); border: 1.5px solid var(--primario); }
+.boton-ancho { width: 100%; }
+.texto-suave { color: var(--texto-suave); margin: 0; }
+.nota { font-size: 13px; margin-top: 16px; }
+.disponible { color: var(--ok) !important; font-weight: 600; }
+.tarjeta-destacada { border-color: var(--primario); }
+.tarjeta-destacada p { margin: 0 0 16px; }
+
+.acceso { display: grid; place-items: center; padding: 40px 0; }
+.acceso-tarjeta { width: 100%; max-width: 420px; }
+.acceso-tarjeta h1 { margin: 0 0 6px; color: var(--primario); font-size: 24px; }
+.formulario { display: grid; gap: 8px; margin-top: 20px; }
+.formulario label { font-size: 13px; font-weight: 600; color: var(--texto-suave); margin-top: 6px; }
+.formulario input { font: inherit; padding: 11px 12px; border: 1px solid var(--borde); border-radius: 8px; }
+.formulario input:focus { outline: 2px solid var(--primario); border-color: transparent; }
+.formulario button { margin-top: 14px; }
+.mensaje-error { color: var(--acento); font-size: 14px; margin: 6px 0 0; }
+
+/* ---------- Central: sección urgente + mapa ---------- */
+.contenido-ancho { max-width: none; padding: 0; display: flex; }
+.central { flex: 1; display: grid; grid-template-columns: 360px 1fr; min-height: calc(100vh - 66px - 48px); }
+.seccion-urgente { display: flex; flex-direction: column; gap: 12px; padding: 16px; background: var(--superficie); border-right: 1px solid var(--borde); overflow-y: auto; max-height: calc(100vh - 66px - 48px); }
+.seccion-urgente-cabecera { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+.seccion-urgente h1 { margin: 0; font-size: 20px; color: var(--acento); }
+.mapa { min-height: 480px; }
+
+.conexion { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.conexion-pendiente { background: #eef1f6; color: var(--texto-suave); }
+.conexion-ok { background: #e3f4ea; color: var(--ok); }
+.conexion-error { background: #fbe6e3; color: var(--acento); }
+
+.alerta-nueva { background: var(--acento); color: #fff; font-weight: 800; text-align: center; padding: 10px; border-radius: 10px; letter-spacing: .5px; }
+.parpadeo { animation: parpadeo .5s ease-in-out 6; }
+@keyframes parpadeo { 50% { opacity: .35; } }
+
+.lista-sos { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.sos { border: 1px solid var(--borde); border-left: 5px solid var(--acento); border-radius: 10px; padding: 10px 12px; cursor: pointer; }
+.sos:hover, .sos:focus { background: #fdf3f1; outline: none; }
+.sos-nuevo { background: #fdecea; box-shadow: 0 0 0 2px var(--acento); }
+.sos-cabecera { display: flex; justify-content: space-between; color: var(--acento); }
+.sos-ciudadano { font-weight: 600; margin-top: 2px; }
+.sos-dato { font-size: 13px; color: var(--texto-suave); }
+.sos-sin-ubicacion { color: var(--acento); font-weight: 600; }
+.vacio { color: var(--texto-suave); text-align: center; margin: 24px 0; }
+
+@media (max-width: 900px) {
+    .central { grid-template-columns: 1fr; }
+    .seccion-urgente { max-height: none; border-right: 0; border-bottom: 1px solid var(--borde); }
+}

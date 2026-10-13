@@ -1,4 +1,5 @@
 @page
+@using Cad.Contratos.Cuentas
 @{
     ViewData["Titulo"] = "Inicio";
 }
@@ -9,6 +10,15 @@
 </section>
 
 <section class="tarjetas">
+    @if (User.IsInRole(Roles.Operador))
+    {
+        <article class="tarjeta tarjeta-destacada">
+            <h2>Central de operaciones</h2>
+            <p>Sección urgente con los SOS en tiempo real y su ubicación en el mapa.</p>
+            <a class="boton boton-primario" href="/central">Abrir la central</a>
+        </article>
+    }
+
     <article class="tarjeta">
         <h2>Estado del servidor</h2>
         <p id="estado-servidor" class="estado estado-pendiente">Comprobando…</p>
@@ -18,8 +28,8 @@
     <article class="tarjeta">
         <h2>Módulos del panel</h2>
         <ul class="modulos">
-            <li><span class="punto urgente"></span>Sección urgente (SOS)<em>Próximamente</em></li>
-            <li><span class="punto"></span>Mapa operativo<em>Próximamente</em></li>
+            <li><span class="punto urgente"></span>Sección urgente (SOS)<em class="disponible">Disponible</em></li>
+            <li><span class="punto"></span>Mapa operativo<em class="disponible">Básico</em></li>
             <li><span class="punto"></span>Reportes y casos<em>Próximamente</em></li>
             <li><span class="punto"></span>Acompañamientos<em>Próximamente</em></li>
             <li><span class="punto"></span>Administración de cuentas<em>Próximamente</em></li>

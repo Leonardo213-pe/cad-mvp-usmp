@@ -141,6 +141,34 @@ namespace Cad.Server.Persistencia.Migraciones
                     b.ToTable("eventos_caso", (string)null);
                 });
 
+            modelBuilder.Entity("Cad.Server.Modulos.Casos.Dominio.MedicionPresentacion", b =>
+                {
+                    b.Property<Guid>("CasoId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("caso_id");
+
+                    b.Property<DateTimeOffset>("AceptadoEn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("aceptado_en");
+
+                    b.Property<DateTimeOffset>("AcuseEn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("acuse_en");
+
+                    b.Property<double>("Milisegundos")
+                        .HasColumnType("double precision")
+                        .HasColumnName("milisegundos");
+
+                    b.Property<Guid>("OperadorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("operador_id");
+
+                    b.HasKey("CasoId")
+                        .HasName("pk_mediciones_presentacion");
+
+                    b.ToTable("mediciones_presentacion", (string)null);
+                });
+
             modelBuilder.Entity("Cad.Server.Modulos.Cuentas.Dominio.PerfilCiudadano", b =>
                 {
                     b.Property<Guid>("UsuarioId")
@@ -513,6 +541,16 @@ namespace Cad.Server.Persistencia.Migraciones
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("fk_eventos_caso_casos_caso_id");
+                });
+
+            modelBuilder.Entity("Cad.Server.Modulos.Casos.Dominio.MedicionPresentacion", b =>
+                {
+                    b.HasOne("Cad.Server.Modulos.Casos.Dominio.Caso", null)
+                        .WithOne()
+                        .HasForeignKey("Cad.Server.Modulos.Casos.Dominio.MedicionPresentacion", "CasoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_mediciones_presentacion_casos_caso_id");
                 });
 
             modelBuilder.Entity("Cad.Server.Modulos.Cuentas.Dominio.PerfilCiudadano", b =>

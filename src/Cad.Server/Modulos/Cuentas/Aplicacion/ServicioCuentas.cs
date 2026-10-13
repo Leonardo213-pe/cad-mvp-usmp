@@ -13,6 +13,8 @@ using Npgsql;
 
 namespace Cad.Server.Modulos.Cuentas.Aplicacion;
 
+public sealed record CuentaValidada(Usuario Usuario, string Rol);
+
 public sealed partial class ServicioCuentas(
     CadDbContext db,
     UserManager<Usuario> usuarios,
@@ -73,11 +75,23 @@ public sealed partial class ServicioCuentas(
     /// <summary>HU02: valida credenciales y emite un JWT para la app.</summary>
     public async Task<Resultado<TokenRespuesta>> EmitirTokenAsync(TokenSolicitud solicitud, CancellationToken ct)
     {
-        if (string.IsNullOrWhiteSpace(solicitud.Email) || string.IsNullOrEmpty(solicitud.Contrasena))
+        var validacion = await ValidarCredencialesAsync(solicitud.Email, solicitud.Contrasena);
+        if (!validacion.EsExito)
+            return validacion.Error!;
+
+        var (usuario, rol) = validacion.Valor!;
+        var (token, expiraEn) = emisorJwt.Emitir(usuario, rol);
+        return Resultado<TokenRespuesta>.Exito(new TokenRespuesta(token, expiraEn, usuario.Id, rol));
+    }
+
+    /// <summary>HU02: comprueba email, contraseña, cuenta activa y rol. La usan el login de la app y el del panel.</summary>
+    public async Task<Resultado<CuentaValidada>> ValidarCredencialesAsync(string? email, string? contrasena)
+    {
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrEmpty(contrasena))
             return CredencialesInvalidas;
 
-        var usuario = await usuarios.FindByEmailAsync(solicitud.Email.Trim());
-        if (usuario is null || !await usuarios.CheckPasswordAsync(usuario, solicitud.Contrasena))
+        var usuario = await usuarios.FindByEmailAsync(email.Trim());
+        if (usuario is null || !await usuarios.CheckPasswordAsync(usuario, contrasena))
             return CredencialesInvalidas;
 
         if (!usuario.Activo)
@@ -87,8 +101,7 @@ public sealed partial class ServicioCuentas(
         if (rol is null)
             return new Error(TipoError.Prohibido, "cuenta_sin_rol", "La cuenta no tiene un rol asignado.");
 
-        var (token, expiraEn) = emisorJwt.Emitir(usuario, rol);
-        return Resultado<TokenRespuesta>.Exito(new TokenRespuesta(token, expiraEn, usuario.Id, rol));
+        return Resultado<CuentaValidada>.Exito(new CuentaValidada(usuario, rol));
     }
 
     private Dictionary<string, string[]> ValidarRegistro(RegistroCiudadanoSolicitud s)

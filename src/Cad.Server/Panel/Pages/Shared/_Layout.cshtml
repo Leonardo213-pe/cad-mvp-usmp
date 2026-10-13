@@ -1,3 +1,7 @@
+@using Cad.Contratos.Cuentas
+@{
+    var autenticado = User.Identity?.IsAuthenticated == true;
+}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Titulo"] · Panel CAD</title>
     <link rel="stylesheet" href="~/css/panel.css" asp-append-version="true" />
+    @await RenderSectionAsync("Estilos", required: false)
 </head>
 <body>
     <header class="barra">
@@ -15,13 +20,34 @@
                 <small>Panel web de central</small>
             </div>
         </div>
-        <span class="aviso-mvp">MVP académico · datos simulados</span>
+
+        @if (autenticado)
+        {
+            <nav class="navegacion">
+                <a href="/">Inicio</a>
+                @if (User.IsInRole(Roles.Operador))
+                {
+                    <a href="/central">Central</a>
+                }
+            </nav>
+            <div class="sesion">
+                <span>@User.Identity!.Name</span>
+                <form method="post" action="/cuentas/salir">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="boton-enlace">Salir</button>
+                </form>
+            </div>
+        }
+        else
+        {
+            <span class="aviso-mvp">MVP académico · datos simulados</span>
+        }
     </header>
-    <main class="contenido">
+    <main class="contenido @ViewData["ClaseContenido"]">
         @RenderBody()
     </main>
     <footer class="pie">
-        No es un canal oficial de atención de emergencias.
+        MVP académico · datos simulados · no es un canal oficial de atención de emergencias.
     </footer>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

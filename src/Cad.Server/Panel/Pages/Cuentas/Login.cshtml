@@ -1,0 +1,30 @@
+@page "/cuentas/login"
+@model Cad.Server.Panel.Pages.Cuentas.LoginModel
+@{
+    ViewData["Titulo"] = "Iniciar sesión";
+}
+
+<section class="acceso">
+    <article class="tarjeta acceso-tarjeta">
+        <h1>Iniciar sesión</h1>
+        <p class="texto-suave">Panel de central para operadores y administradores.</p>
+
+        <form method="post" class="formulario">
+            <label for="email">Email</label>
+            <input id="email" name="Email" type="email" value="@Model.Email" autocomplete="username" required autofocus />
+
+            <label for="contrasena">Contraseña</label>
+            <input id="contrasena" name="Contrasena" type="password" autocomplete="current-password" required />
+
+            @if (Model.Error is not null)
+            {
+                <p class="mensaje-error" role="alert">@Model.Error</p>
+            }
+
+            <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+            <button type="submit" class="boton boton-primario">Iniciar sesión</button>
+        </form>
+
+        <p class="texto-suave nota">Las cuentas de ciudadano y de sereno se usan desde la app móvil.</p>
+    </article>
+</section>
