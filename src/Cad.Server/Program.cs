@@ -1,5 +1,7 @@
 using Cad.Contratos.Salud;
 using Cad.Server.Compartido.Seguridad;
+using Cad.Server.Modulos.Casos;
+using Cad.Server.Modulos.Casos.Endpoints;
 using Cad.Server.Modulos.Cuentas;
 using Cad.Server.Modulos.Cuentas.Endpoints;
 using Cad.Server.Persistencia;
@@ -11,6 +13,7 @@ builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddPersistenciaCad(builder.Configuration);
 builder.Services.AddSeguridadCad(builder.Configuration);
 builder.Services.AddModuloCuentas(builder.Configuration);
+builder.Services.AddModuloCasos();
 
 // Panel de central servido por el mismo proceso (sección 3.2).
 builder.Services.AddRazorPages(o => o.RootDirectory = "/Panel/Pages");
@@ -31,6 +34,7 @@ if (app.Configuration.GetValue("BaseDatos:MigrarAlArrancar", true))
 app.MapGet("/salud", () => Results.Ok(new EstadoSaludDto("ok", DateTimeOffset.UtcNow)));
 
 app.MapCuentasEndpoints();
+app.MapSosEndpoints();
 app.MapRazorPages();
 
 app.Run();

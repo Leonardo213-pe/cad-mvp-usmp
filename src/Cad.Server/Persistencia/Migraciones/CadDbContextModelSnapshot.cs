@@ -22,6 +22,125 @@ namespace Cad.Server.Persistencia.Migraciones
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Cad.Server.Modulos.Casos.Dominio.Caso", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("CiudadanoId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ciudadano_id");
+
+                    b.Property<DateTimeOffset>("CreadoEn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("creado_en");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("estado");
+
+                    b.Property<Guid>("IdSolicitud")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id_solicitud");
+
+                    b.Property<double?>("Latitud")
+                        .HasColumnType("double precision")
+                        .HasColumnName("latitud");
+
+                    b.Property<double?>("Longitud")
+                        .HasColumnType("double precision")
+                        .HasColumnName("longitud");
+
+                    b.Property<string>("Origen")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("origen");
+
+                    b.Property<double?>("PrecisionMetros")
+                        .HasColumnType("double precision")
+                        .HasColumnName("precision_metros");
+
+                    b.Property<DateTimeOffset?>("UbicacionObtenidaEn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ubicacion_obtenida_en");
+
+                    b.Property<uint>("Version")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid")
+                        .HasColumnName("xmin");
+
+                    b.HasKey("Id")
+                        .HasName("pk_casos");
+
+                    b.HasIndex("Estado")
+                        .HasDatabaseName("ix_casos_estado");
+
+                    b.HasIndex("CiudadanoId", "IdSolicitud")
+                        .IsUnique()
+                        .HasDatabaseName("ux_casos_ciudadano_id_solicitud");
+
+                    b.ToTable("casos", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_casos_latitud", "latitud IS NULL OR latitud BETWEEN -90 AND 90");
+
+                            t.HasCheckConstraint("ck_casos_longitud", "longitud IS NULL OR longitud BETWEEN -180 AND 180");
+
+                            t.HasCheckConstraint("ck_casos_precision", "precision_metros IS NULL OR precision_metros >= 0");
+
+                            t.HasCheckConstraint("ck_casos_ubicacion_completa", "(latitud IS NULL) = (longitud IS NULL) AND (latitud IS NULL) = (precision_metros IS NULL) AND (latitud IS NULL) = (ubicacion_obtenida_en IS NULL)");
+                        });
+                });
+
+            modelBuilder.Entity("Cad.Server.Modulos.Casos.Dominio.EventoCaso", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("ActorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("actor_id");
+
+                    b.Property<Guid>("CasoId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("caso_id");
+
+                    b.Property<string>("Datos")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("datos");
+
+                    b.Property<DateTimeOffset>("OcurridoEn")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ocurrido_en");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("tipo");
+
+                    b.Property<string>("Visibilidad")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("visibilidad");
+
+                    b.HasKey("Id")
+                        .HasName("pk_eventos_caso");
+
+                    b.HasIndex("CasoId", "OcurridoEn")
+                        .HasDatabaseName("ix_eventos_caso_caso_id_ocurrido_en");
+
+                    b.ToTable("eventos_caso", (string)null);
+                });
+
             modelBuilder.Entity("Cad.Server.Modulos.Cuentas.Dominio.PerfilCiudadano", b =>
                 {
                     b.Property<Guid>("UsuarioId")
@@ -374,6 +493,26 @@ namespace Cad.Server.Persistencia.Migraciones
                         .HasName("pk_usuario_tokens");
 
                     b.ToTable("usuario_tokens", (string)null);
+                });
+
+            modelBuilder.Entity("Cad.Server.Modulos.Casos.Dominio.Caso", b =>
+                {
+                    b.HasOne("Cad.Server.Persistencia.Identidad.Usuario", null)
+                        .WithMany()
+                        .HasForeignKey("CiudadanoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_casos_asp_net_users_ciudadano_id");
+                });
+
+            modelBuilder.Entity("Cad.Server.Modulos.Casos.Dominio.EventoCaso", b =>
+                {
+                    b.HasOne("Cad.Server.Modulos.Casos.Dominio.Caso", null)
+                        .WithMany()
+                        .HasForeignKey("CasoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_eventos_caso_casos_caso_id");
                 });
 
             modelBuilder.Entity("Cad.Server.Modulos.Cuentas.Dominio.PerfilCiudadano", b =>

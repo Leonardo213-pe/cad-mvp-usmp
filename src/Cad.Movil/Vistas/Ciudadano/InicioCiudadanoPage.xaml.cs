@@ -18,6 +18,7 @@ public partial class InicioCiudadanoPage : ContentPage
         base.OnAppearing();
         _viewModel.Refrescar();
         Preparar();
+        _viewModel.Sos.CargarPendienteCommand.Execute(null);
 
         // Al volver de los ajustes del teléfono se actualiza el estado sin volver a preguntar.
         _ventana = Window;

@@ -1,3 +1,4 @@
+using Cad.Server.Modulos.Casos.Dominio;
 using Cad.Server.Modulos.Cuentas.Dominio;
 using Cad.Server.Modulos.Despacho.Dominio;
 using Cad.Server.Persistencia.Identidad;
@@ -12,6 +13,8 @@ public sealed class CadDbContext(DbContextOptions<CadDbContext> options)
 {
     public DbSet<PerfilCiudadano> PerfilesCiudadano => Set<PerfilCiudadano>();
     public DbSet<EstadoSereno> EstadosSereno => Set<EstadoSereno>();
+    public DbSet<Caso> Casos => Set<Caso>();
+    public DbSet<EventoCaso> EventosCaso => Set<EventoCaso>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

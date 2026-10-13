@@ -20,11 +20,13 @@ public static class MauiProgram
         builder.Services.AddSingleton<SesionServicio>();
         builder.Services.AddSingleton<ApiCliente>();
         builder.Services.AddSingleton<UbicacionServicio>();
+        builder.Services.AddSingleton<SosPendienteServicio>();
 
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<RegistroViewModel>();
         builder.Services.AddTransient<InicioModoViewModel>();
         builder.Services.AddTransient<InicioCiudadanoViewModel>();
+        builder.Services.AddTransient<SosViewModel>();
 
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<RegistroPage>();

@@ -5,9 +5,12 @@ using CommunityToolkit.Mvvm.Input;
 namespace Cad.Movil.VistasModelo;
 
 /// <summary>Inicio del modo ciudadano con la preparación de la geolocalización (HU06).</summary>
-public sealed partial class InicioCiudadanoViewModel(SesionServicio sesion, UbicacionServicio ubicacion)
+public sealed partial class InicioCiudadanoViewModel(SesionServicio sesion, UbicacionServicio ubicacion, SosViewModel sos)
     : InicioModoViewModel(sesion)
 {
+    /// <summary>Botón SOS (HU07/HU08).</summary>
+    public SosViewModel Sos { get; } = sos;
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(Titulo), nameof(Detalle), nameof(TextoAccion), nameof(HayAccion),
         nameof(UbicacionLista), nameof(Comprobando))]

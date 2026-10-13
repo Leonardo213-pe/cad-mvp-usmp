@@ -42,17 +42,53 @@
         </Border>
 
         <VerticalStackLayout Grid.Row="2" Spacing="16" VerticalOptions="Center">
-            <!-- RF03.1: control independiente del reporte y del acompañamiento. Se activa con HU07. -->
+            <!-- RF03.1 / RNF06: control independiente del reporte y del acompañamiento; un solo toque, sin
+                 formularios ni confirmación. Mientras se envía no admite otra pulsación. -->
             <Border WidthRequest="210" HeightRequest="210" HorizontalOptions="Center"
-                    BackgroundColor="{StaticResource Acento}" StrokeThickness="0" Opacity="0.45"
-                    StrokeShape="RoundRectangle 105">
-                <VerticalStackLayout VerticalOptions="Center" Spacing="2">
+                    BackgroundColor="{StaticResource Acento}" StrokeThickness="0"
+                    StrokeShape="RoundRectangle 105"
+                    SemanticProperties.Description="Botón SOS. Envía una alerta urgente a la central.">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Sos.EmitirCommand}" />
+                </Border.GestureRecognizers>
+                <Border.Triggers>
+                    <DataTrigger TargetType="Border" Binding="{Binding Sos.EnCurso}" Value="True">
+                        <Setter Property="Opacity" Value="0.7" />
+                    </DataTrigger>
+                </Border.Triggers>
+                <VerticalStackLayout VerticalOptions="Center" Spacing="4">
                     <Label Text="SOS" TextColor="White" FontSize="56" FontAttributes="Bold" HorizontalOptions="Center" />
-                    <Label Text="Próximamente" TextColor="White" FontSize="13" HorizontalOptions="Center" />
+                    <ActivityIndicator IsRunning="{Binding Sos.EnCurso}" IsVisible="{Binding Sos.EnCurso}"
+                                       Color="White" WidthRequest="22" HeightRequest="22" />
+                    <Label Text="{Binding Sos.TextoBoton}" TextColor="White" FontSize="13"
+                           HorizontalOptions="Center" HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
             </Border>
 
-            <Label Text="Ante peligro inmediato usarás este botón: un solo toque, sin formularios."
+            <!-- Resultado: "SOS registrado" solo aparece cuando respondió el servidor (HU07-CA03). -->
+            <Border Style="{StaticResource Tarjeta}" Padding="14" IsVisible="{Binding Sos.HayResultado}"
+                    Stroke="{StaticResource Acento}">
+                <Border.Triggers>
+                    <DataTrigger TargetType="Border" Binding="{Binding Sos.Registrado}" Value="True">
+                        <Setter Property="Stroke" Value="{StaticResource Exito}" />
+                    </DataTrigger>
+                </Border.Triggers>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding Sos.Titulo}" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Acento}">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding Sos.Registrado}" Value="True">
+                                <Setter Property="TextColor" Value="{StaticResource Exito}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Label Text="{Binding Sos.Detalle}" Style="{StaticResource Subtitulo}" FontSize="13" />
+                    <Button Text="Reintentar" IsVisible="{Binding Sos.PuedeReintentar}"
+                            Command="{Binding Sos.EmitirCommand}" Style="{StaticResource BotonPrimario}"
+                            BackgroundColor="{StaticResource Acento}" HeightRequest="44" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="Ante peligro inmediato pulsa SOS: un solo toque, sin formularios."
                    Style="{StaticResource Subtitulo}" HorizontalTextAlignment="Center" />
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
