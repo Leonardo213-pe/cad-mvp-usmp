@@ -3,19 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Cad.Movil.VistasModelo"
              x:Class="Cad.Movil.Vistas.Ciudadano.InicioCiudadanoPage"
-             x:DataType="vm:InicioModoViewModel"
+             x:DataType="vm:InicioCiudadanoViewModel"
              Title="Ciudadano">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Salir" Command="{Binding CerrarSesionCommand}" />
     </ContentPage.ToolbarItems>
 
-    <Grid RowDefinitions="Auto,*,Auto" Padding="24" RowSpacing="20">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="24" RowSpacing="16">
         <VerticalStackLayout Grid.Row="0" Spacing="4">
             <Label Text="Hola" Style="{StaticResource Subtitulo}" />
             <Label Text="{Binding Email}" Style="{StaticResource Titulo}" FontSize="20" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="1" Spacing="16" VerticalOptions="Center">
+        <!-- HU06: estado de la ubicación. Solo informa; no transmite nada (RNF07). -->
+        <Border Grid.Row="1" Style="{StaticResource Tarjeta}" Padding="14">
+            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="10">
+                <Grid Grid.Row="0" Grid.Column="0" WidthRequest="12" VerticalOptions="Start" Margin="0,5,0,0">
+                    <BoxView WidthRequest="12" HeightRequest="12" CornerRadius="6" Color="{StaticResource Acento}">
+                        <BoxView.Triggers>
+                            <DataTrigger TargetType="BoxView" Binding="{Binding UbicacionLista}" Value="True">
+                                <Setter Property="Color" Value="{StaticResource Exito}" />
+                            </DataTrigger>
+                        </BoxView.Triggers>
+                    </BoxView>
+                    <ActivityIndicator IsRunning="{Binding Comprobando}" IsVisible="{Binding Comprobando}"
+                                       WidthRequest="16" HeightRequest="16" Color="{StaticResource Primario}" />
+                </Grid>
+
+                <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="2">
+                    <Label Text="{Binding Titulo}" FontAttributes="Bold" />
+                    <Label Text="{Binding Detalle}" Style="{StaticResource Subtitulo}" FontSize="13" />
+                </VerticalStackLayout>
+
+                <Button Grid.Row="1" Grid.Column="1" Text="{Binding TextoAccion}" IsVisible="{Binding HayAccion}"
+                        Command="{Binding EjecutarAccionCommand}" Style="{StaticResource BotonSecundario}"
+                        HeightRequest="40" FontSize="14" HorizontalOptions="Start" Padding="16,0" />
+            </Grid>
+        </Border>
+
+        <VerticalStackLayout Grid.Row="2" Spacing="16" VerticalOptions="Center">
             <!-- RF03.1: control independiente del reporte y del acompañamiento. Se activa con HU07. -->
             <Border WidthRequest="210" HeightRequest="210" HorizontalOptions="Center"
                     BackgroundColor="{StaticResource Acento}" StrokeThickness="0" Opacity="0.45"
@@ -52,7 +78,7 @@
             </Border>
         </VerticalStackLayout>
 
-        <Label Grid.Row="2" Style="{StaticResource Nota}"
+        <Label Grid.Row="3" Style="{StaticResource Nota}"
                Text="MVP académico · datos simulados · no es un canal oficial de emergencias" />
     </Grid>
 </ContentPage>

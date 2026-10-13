@@ -19,10 +19,12 @@ public static class MauiProgram
         builder.Services.AddSingleton<ConfiguracionServidor>();
         builder.Services.AddSingleton<SesionServicio>();
         builder.Services.AddSingleton<ApiCliente>();
+        builder.Services.AddSingleton<UbicacionServicio>();
 
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<RegistroViewModel>();
         builder.Services.AddTransient<InicioModoViewModel>();
+        builder.Services.AddTransient<InicioCiudadanoViewModel>();
 
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<RegistroPage>();
